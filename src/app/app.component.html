@@ -1,0 +1,37 @@
+<div class="shell" *ngIf="{ tasks: tasks$ | async, filter: filter$ | async, toast: toast$ | async } as vm">
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="logo">kan<span class="logo-accent">ban</span></span>
+      <div class="filter-bar">
+        <button class="filter-btn" [class.active]="vm.filter === 'all'"    (click)="setFilter('all')">All</button>
+        <button class="filter-btn" [class.active]="vm.filter === 'high'"   (click)="setFilter('high')">🔴 High</button>
+        <button class="filter-btn" [class.active]="vm.filter === 'medium'" (click)="setFilter('medium')">🟡 Med</button>
+        <button class="filter-btn" [class.active]="vm.filter === 'low'"    (click)="setFilter('low')">🟢 Low</button>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="undo-btn" (click)="undo()" [disabled]="!canUndo()">↩ Undo</button>
+    </div>
+  </header>
+
+  <!-- Board -->
+  <main class="board">
+    <app-board-column
+      *ngFor="let col of columns"
+      [column]="col"
+      [tasks]="tasksForCol(vm.tasks || [], col.id)"
+      [count]="countForCol(col.id)"
+      (addRequest)="openAdd($event)"
+      (editRequest)="openEdit($event)">
+    </app-board-column>
+  </main>
+
+  <!-- Modal -->
+  <app-task-modal [config]="modalConfig" (close)="closeModal()"></app-task-modal>
+
+  <!-- Toast -->
+  <div class="toast" *ngIf="vm.toast">{{ vm.toast }}</div>
+
+</div>

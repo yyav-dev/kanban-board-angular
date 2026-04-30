@@ -1,0 +1,43 @@
+<div class="column">
+
+  <!-- Header -->
+  <div class="col-header">
+    <div class="col-title-wrap">
+      <span class="col-dot" [style.background]="column.dot"></span>
+      <span class="col-title">{{ column.label }}</span>
+    </div>
+    <span class="col-count"
+          [style.background]="column.countBg"
+          [style.color]="column.countColor">
+      {{ count }}
+    </span>
+  </div>
+
+  <!-- Drop zone body -->
+  <div
+    class="col-body"
+    [class.drag-over]="isDragOver"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave()"
+    (drop)="onDrop($event)">
+
+    <ng-container *ngIf="tasks.length; else emptyTpl">
+      <app-task-card
+        *ngFor="let task of tasks; trackBy: trackById; let i = index"
+        [task]="task"
+        [index]="i"
+        (editRequest)="onEditTask($event)">
+      </app-task-card>
+    </ng-container>
+
+    <ng-template #emptyTpl>
+      <div class="empty-zone">Drop tasks here</div>
+    </ng-template>
+  </div>
+
+  <!-- Add button -->
+  <button class="add-task-btn" (click)="onAddTask()">
+    <span>+</span> Add task
+  </button>
+
+</div>

@@ -1,0 +1,24 @@
+<div
+  class="task-card"
+  draggable="true"
+  (dragstart)="onDragStart($event)"
+  (dragend)="onDragEnd($event)"
+  (dragover)="onDragOver($event)">
+
+  <div class="task-top">
+    <span class="task-title">{{ task.title }}</span>
+    <div class="task-actions">
+      <button class="act-btn" (click)="onEdit()" title="Edit task">✏️</button>
+      <button class="act-btn" (click)="onDelete()" title="Delete task">🗑️</button>
+    </div>
+  </div>
+
+  <p class="task-desc" *ngIf="task.description">{{ task.description }}</p>
+
+  <div class="task-footer">
+    <span class="priority-badge" [ngClass]="'p-' + task.priority">
+      {{ task.priority }}
+    </span>
+    <span class="task-id">#{{ task.id.slice(-4) }}</span>
+  </div>
+</div>

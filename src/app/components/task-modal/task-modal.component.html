@@ -1,0 +1,73 @@
+<div
+  *ngIf="config"
+  class="modal-overlay"
+  (click)="onOverlayClick($event)"
+  (keydown)="onKeydown($event)">
+
+  <div class="modal" role="dialog" aria-modal="true">
+
+    <h2 class="modal-title">
+      {{ config.mode === 'edit' ? 'Edit Task' : 'New Task' }}
+    </h2>
+
+    <!-- Title -->
+    <div class="form-group">
+      <label class="form-label" for="task-title">Title *</label>
+      <input
+        id="task-title"
+        class="form-input"
+        [(ngModel)]="title"
+        (ngModelChange)="titleError = ''"
+        placeholder="Task title…"
+        autocomplete="off"
+        autofocus />
+      <span class="err-msg" *ngIf="titleError">{{ titleError }}</span>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label class="form-label" for="task-desc">Description</label>
+      <textarea
+        id="task-desc"
+        class="form-input"
+        [(ngModel)]="description"
+        placeholder="Optional description…"
+        rows="3">
+      </textarea>
+    </div>
+
+    <!-- Priority -->
+    <div class="form-group">
+      <label class="form-label">Priority</label>
+      <div class="priority-select">
+        <button
+          class="pri-opt"
+          [class.sel-high]="priority === 'high'"
+          (click)="setPriority('high')">
+          High
+        </button>
+        <button
+          class="pri-opt"
+          [class.sel-medium]="priority === 'medium'"
+          (click)="setPriority('medium')">
+          Medium
+        </button>
+        <button
+          class="pri-opt"
+          [class.sel-low]="priority === 'low'"
+          (click)="setPriority('low')">
+          Low
+        </button>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="close.emit()">Cancel</button>
+      <button class="btn-primary" (click)="onSave()">
+        {{ config.mode === 'edit' ? 'Save Changes' : 'Add Task' }}
+      </button>
+    </div>
+
+  </div>
+</div>
